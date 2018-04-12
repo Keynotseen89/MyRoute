@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "27180329065",
+    "firebase_url": "https://myroute-bddab.firebaseio.com",
+    "project_id": "myroute-bddab",
+    "storage_bucket": "myroute-bddab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27180329065:android:a02e82d2dc0c7e66",
+        "android_client_info": {
+          "package_name": "com.example.quinatzin.myroute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27180329065-f8o837ve2u56k8e2t39o7bbvucok5pra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.quinatzin.myroute",
+            "certificate_hash": "2b2c4b7855ac6719c220c387f0dc78a3a2908ccd"
+          }
+        },
+        {
+          "client_id": "27180329065-ccricee8p8tihnb3m1e2mjo3roirvl7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfnQ0bJQEXik68Be9MEBkmqYZBgfWoYiY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27180329065-ccricee8p8tihnb3m1e2mjo3roirvl7e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

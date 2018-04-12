@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_aboutactivity">
+
+    <!--<include layout="@layout/content_aboutactivity"/>-->
+    <ImageView
+        android:id="@+id/phoneIconID"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/ic_phone_black_24dp"
+        android:tint="#8c3cb9f7" />
+
+    <TextView
+        android:id="@+id/textPhoneID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lableMobleID"
+        android:layout_alignStart="@+id/lableMobleID"
+        android:layout_alignTop="@+id/phoneIconID"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="9091112222"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lableMobleID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textPhoneID"
+        android:layout_marginLeft="20sp"
+        android:layout_toEndOf="@+id/phoneIconID"
+        android:layout_toRightOf="@+id/phoneIconID"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Mobile"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/messageIconeID"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_alignBottom="@+id/phoneIconID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30sp"
+        android:tint="#8c3cb9f7"
+        app:srcCompat="@drawable/ic_forum_black_24dp" />
+
+    <ImageView
+        android:id="@+id/email_icon_id"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_below="@+id/lableMobleID"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="35dp"
+        android:layout_toLeftOf="@+id/lableMobleID"
+        android:layout_toStartOf="@+id/lableMobleID"
+        android:background="@drawable/ic_email_black_24dp"
+        android:tint="#8c3cb9f7" />
+
+    <TextView
+        android:id="@+id/textEmail_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/email_lable"
+        android:layout_alignStart="@+id/email_lable"
+        android:layout_alignTop="@+id/email_icon_id"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="example@hotmail.com"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/email_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textEmail_ID"
+        android:layout_marginLeft="20sp"
+        android:layout_toEndOf="@+id/email_icon_id"
+        android:layout_toRightOf="@+id/email_icon_id"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Personal"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/locationIconID"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_below="@+id/email_lable"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="41dp"
+        android:layout_toLeftOf="@+id/email_lable"
+        android:layout_toStartOf="@+id/email_lable"
+        android:background="@drawable/ic_location_on_black_24dp"
+        android:tint="#8c3cb9f7" />
+
+    <TextView
+        android:id="@+id/textAddressID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/listItemNoteBody3"
+        android:layout_alignStart="@+id/listItemNoteBody3"
+        android:layout_alignTop="@+id/locationIconID"
+        android:ellipsize="end"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:scrollbars="vertical"
+        android:singleLine="true"
+        android:text="1234 Hunting Dr, Los Angele 9XXXX"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/listItemNoteBody3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textAddressID"
+        android:layout_marginLeft="20sp"
+        android:layout_toEndOf="@+id/locationIconID"
+        android:layout_toRightOf="@+id/locationIconID"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="home"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/listItemNoteImage4"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_below="@+id/listItemNoteBody3"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="35dp"
+        android:layout_toLeftOf="@+id/listItemNoteBody3"
+        android:layout_toStartOf="@+id/listItemNoteBody3"
+        android:background="@drawable/ic_attach_money_black_24dp"
+        android:tint="#8c3cb9f7" />
+
+    <TextView
+        android:id="@+id/textPriceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelPriceId"
+        android:layout_alignStart="@+id/labelPriceId"
+        android:layout_alignTop="@+id/listItemNoteImage4"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="90.00"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/labelPriceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textPriceID"
+        android:layout_marginLeft="20sp"
+        android:layout_toEndOf="@+id/listItemNoteImage4"
+        android:layout_toRightOf="@+id/listItemNoteImage4"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Charge Price"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/notesIconID"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_below="@+id/labelPriceId"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="44dp"
+        android:layout_toLeftOf="@+id/labelPriceId"
+        android:layout_toStartOf="@+id/labelPriceId"
+        android:background="@drawable/ic_note_black_18dp"
+        android:tint="#8c3cb9f7" />
+
+    <TextView
+        android:id="@+id/noteTextID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelPriceId"
+        android:layout_alignStart="@+id/labelPriceId"
+        android:layout_alignTop="@+id/notesIconID"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:scrollbars="vertical" />
+
+
+</RelativeLayout>

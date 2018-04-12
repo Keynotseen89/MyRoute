@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_detail_edit">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="85dp"
+            android:backgroundTint="@android:color/background_light"
+            app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
+
+        <EditText
+            android:id="@+id/editTextLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextName"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:hint="First name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextLastName"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/editTextLastName"
+            android:layout_marginTop="201dp"
+            android:ems="10"
+            android:hint="Last name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextLastName"
+            android:layout_alignStart="@+id/editTextLastName"
+            android:layout_below="@+id/editTextLastName"
+            android:ems="10"
+            android:hint="Phone"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextPhone"
+            android:layout_alignStart="@+id/editTextPhone"
+            android:layout_below="@+id/editTextPhone"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextEmail"
+            android:layout_alignStart="@+id/editTextEmail"
+            android:layout_below="@+id/editTextEmail"
+            android:ems="10"
+            android:hint="Price"
+            android:inputType="text|numberDecimal" />
+
+        <EditText
+            android:id="@+id/editRouteDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextPrice"
+            android:layout_alignStart="@+id/editTextPrice"
+            android:layout_below="@+id/editTextPrice"
+            android:ems="10"
+            android:hint="Day"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editRouteDay"
+            android:layout_alignStart="@+id/editRouteDay"
+            android:layout_below="@+id/editRouteDay"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Address"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:minLines="2"
+            android:scrollbars="vertical"
+            android:textStyle="normal" />
+
+        <EditText
+            android:id="@+id/editNoteId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextAddress"
+            android:layout_alignStart="@+id/editTextAddress"
+            android:layout_below="@+id/editTextAddress"
+            android:ems="10"
+            android:hint="Notes"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbars="vertical"
+            android:textStyle="normal" />
+    </RelativeLayout>
+</ScrollView>

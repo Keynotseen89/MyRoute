@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyRoute</string>
+    <!-- Message to display when ListView is empty [CHAR = 30] -->
+    <string name="empty_message">Its a bit lonely here...</string>
+
+    <!-- Sub message to display when ListView is empty[CHAR = 30] -->
+    <string name="sub_empty_message">Get started by adding a few entry.</string>
+
+    <string name="add_new">Edit</string>
+</resources>
