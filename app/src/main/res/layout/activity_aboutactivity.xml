@@ -13,10 +13,11 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="300sp"
+        android:background="@color/colorBabyBlue"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <!--<android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,6 +26,30 @@
             app:contentScrim="@color/colorBabyBlue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@color/colorBabyBlue">
+        -->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorBabyBlue"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@color/colorBabyBlue">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageViewDetal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorBabyBlue"
+                    android:fitsSystemWindows="true"
+                    app:srcCompat="@drawable/landscape" />
+            </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -32,6 +57,23 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginEnd="23dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
+
+            </RelativeLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +92,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    app:srcCompat="@mipmap/ic_photo_camera_black_24dp" />
+                    app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
+                //app:srcCompat="@mipmap/ic_photo_camera_black_24dp" />
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>

@@ -38,13 +38,15 @@ import java.util.List;
 public class SundayFragment extends Fragment {
 
     DatabaseReference db;
+    DatabaseReference dbRef1;
+    DatabaseReference dbRef2;
     FirebaseHelper helper;
 
     private static final String TAG = "SundayFragment";
 
-    public static final String ANONYMOUS = "anonymous";
-    public static final int RC_SIGN_IN = 1;
-    private static final int RC_PHOTO_PICKKER = 2;
+    public static final String ANONYMOUS = "Stacy Joy";
+   // public static final int RC_SIGN_IN = 1;
+   // private static final int RC_PHOTO_PICKKER = 2;
 
     private ListView sundayListView;
 
@@ -54,8 +56,8 @@ public class SundayFragment extends Fragment {
     // FireBase instance variable
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildEventListener;
-
+    //private ChildEventListener mChildEventListener;
+    ValueEventListener mValueEventListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sunday_route, container, false);
@@ -64,11 +66,15 @@ public class SundayFragment extends Fragment {
         View emptyView = view.findViewById(R.id.empty_view);
         sundayListView.setEmptyView(emptyView) ;
         // INITIALIZE FIREBASE DB
-        db = FirebaseDatabase.getInstance().getReference();
+        db = FirebaseDatabase.getInstance().getReference().child("User");
+       // dbRef1 = db.child(ANONYMOUS);
+        dbRef1 = db.child("User").child(ANONYMOUS);
         helper = new FirebaseHelper(db);
 
         // ADAPTER
-        mCustomerAdapter = new CustomerAdapter(getContext(), helper.retrieve());
+        mCustomerAdapter = new CustomerAdapter(getActivity(), helper.retrieve());
+
+
         //sundayListView.setAdapter(mCustomerAdapter);
 
 

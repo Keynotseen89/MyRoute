@@ -1,5 +1,7 @@
 package com.example.quinatzin.myroute.data;
 
+import android.provider.ContactsContract;
+
 import com.example.quinatzin.myroute.Customer;
 import com.example.quinatzin.myroute.CustomerAdapter;
 import com.google.firebase.database.ChildEventListener;
@@ -38,7 +40,7 @@ public class FirebaseHelper {
      * @param customer
      * @return
      */
-    public Boolean save(Customer customer) {
+   /* public Boolean save(Customer customer) {
         if (customer == null) {
             saved = false;
         } else {
@@ -52,7 +54,7 @@ public class FirebaseHelper {
         }
         return saved;
     }
-
+    */
     // IMPLEMENT FETCH DATA AND FILL ARRAYLIST
     private void fetchData(DataSnapshot dataSnapshot) {
         customer.clear();
@@ -71,7 +73,7 @@ public class FirebaseHelper {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 //Customer customer = dataSnapshot.getValue(Customer.class);
-                fetchData(dataSnapshot);
+               fetchData(dataSnapshot);
                /* Customer customerValue = dataSnapshot.getValue(Customer.class);
                 System.out.println("Last Name: " + customerValue.getLastName());
                 System.out.println("First Name: " + customerValue.getFirstName());
@@ -85,7 +87,7 @@ public class FirebaseHelper {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                fetchData(dataSnapshot);
+               // fetchData(dataSnapshot);
             }
 
             @Override

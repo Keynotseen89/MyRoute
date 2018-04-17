@@ -1,16 +1,24 @@
 package com.example.quinatzin.myroute;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -22,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class AddEditCustomer extends AppCompatActivity {
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final int PICK_IMAGE_REQUEST = 0;
 
     private String mUsername;
     // EditText to read Last name
@@ -41,13 +52,16 @@ public class AddEditCustomer extends AppCompatActivity {
     // EditText to read Notes
     private EditText mNotes;
 
+    private ImageButton imageBtnUpload;
+    private ImageView imageDetail;
+    Uri actualUri;
 
     String lastNameString, firstNameString, phoneString, emailString, priceString,
             dayString, addressString, notesString;
 
     private static final String TAG = "AddEditCustomer";
 
-    public static final String ANONYMOUS = "anonymous";
+    public static final String ANONYMOUS = "Stacy Joy";
     // Firebase instance variable
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -55,6 +69,7 @@ public class AddEditCustomer extends AppCompatActivity {
 
     private boolean isEmpty = true;
     private Uri mCurrentData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +84,13 @@ public class AddEditCustomer extends AppCompatActivity {
 
         mUsername = ANONYMOUS;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("User");
+        mDatabaseReference = mFirebaseDatabase.getReference().child("User").child(ANONYMOUS);
+        //mDatabaseReference = mFirebaseDatabase.getReference("User").child(mUsername);
+        //mDatabaseReference = mFirebaseDatabase.getReference().child("User");
+
+        // set value to imageBtnUpload
+        imageBtnUpload = findViewById(R.id.imageBtn_id);
+        imageDetail = findViewById(R.id.imageView);
 
         // Set values to Empty text field by their ID
         mLastName = findViewById(R.id.editTextLastName);
@@ -82,7 +103,7 @@ public class AddEditCustomer extends AppCompatActivity {
         mNotes = findViewById(R.id.editNoteId);
 
 
-        if ( getIntent().getExtras() != null ) {
+        if (getIntent().getExtras() != null) {
             phoneString = intent.getExtras().getString("PHONE_KEY");
             emailString = intent.getExtras().getString("EMAIL_KEY");
             addressString = intent.getExtras().getString("ADDRESS_KEY");
@@ -90,7 +111,76 @@ public class AddEditCustomer extends AppCompatActivity {
             notesString = intent.getExtras().getString("NOTES_KEY");
             populateInformation();
         }
+
+        imageBtnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tryToOpenImageSelector();
+            }
+        });
     }
+
+    private void tryToOpenImageSelector() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            return;
+        }
+        openImageSelector();
+    }
+
+    private void openImageSelector() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImageSelector();
+                    // permission was granted
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        // The ACTION_OPEN_DOCUMENT intent was sent with the request code READ_REQUEST_CODE.
+        // If the request code seen here doesn't match, it's the response to some other intent,
+        // and the below code shouldn't run at all.
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
+
+            if (resultData != null) {
+                actualUri = resultData.getData();
+                imageDetail.setImageURI(actualUri);
+                imageDetail.invalidate();
+                //actualUri = resultData.getData();
+                //imageView.setImageURI(actualUri);
+                //imageView.invalidate();
+            }
+        }
+    }
+
 
     private void populateInformation() {
 
