@@ -14,10 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.quinatzin.myroute.utils.Constants;
+
+import java.util.ArrayList;
 
 /**
  * Created by kench on 4/9/2018.
@@ -48,6 +54,8 @@ public class CustomerDetail extends AppCompatActivity {
     String priceString;
     String noteString;
 
+    Spinner daySpinner;
+
     private Uri mCurrentData;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -57,7 +65,6 @@ public class CustomerDetail extends AppCompatActivity {
         //toolbar.setTitle("Quin title");
 
 
-        //setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         mCurrentData = intent.getData();

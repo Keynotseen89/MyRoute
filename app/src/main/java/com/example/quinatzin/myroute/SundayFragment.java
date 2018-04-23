@@ -1,9 +1,5 @@
 package com.example.quinatzin.myroute;
 
-import android.app.ListFragment;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 //import android.support.v4.app.Fragment;
 import android.support.v4.app.Fragment;
@@ -11,24 +7,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import com.example.quinatzin.myroute.data.FirebaseHelper;
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.firebase.database.ChildEventListener;
+import com.example.quinatzin.myroute.model.Customer;
+import com.example.quinatzin.myroute.utils.Constants;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -38,62 +32,107 @@ import java.util.List;
 public class SundayFragment extends Fragment {
 
     DatabaseReference db;
-    DatabaseReference dbRef1;
-    DatabaseReference dbRef2;
     FirebaseHelper helper;
 
     private static final String TAG = "SundayFragment";
 
-    public static final String ANONYMOUS = "Stacy Joy";
-   // public static final int RC_SIGN_IN = 1;
-   // private static final int RC_PHOTO_PICKKER = 2;
+    public static final String ANONYMOUS = "jim@hotmail,com";
 
     private ListView sundayListView;
 
     //private String mUsername;
     //private CustomerAdapter mCustomerAdapter;
     CustomerAdapter mCustomerAdapter;
+    ArrayList<Customer> customer = new ArrayList<>();
+
     // FireBase instance variable
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    //private ChildEventListener mChildEventListener;
-    ValueEventListener mValueEventListener;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sunday_route, container, false);
 
         sundayListView = view.findViewById(R.id.list);
-        View emptyView = view.findViewById(R.id.empty_view);
-        sundayListView.setEmptyView(emptyView) ;
+        final View emptyView = view.findViewById(R.id.empty_view);
+        sundayListView.setEmptyView(emptyView);
+
         // INITIALIZE FIREBASE DB
-        db = FirebaseDatabase.getInstance().getReference().child("User");
-       // dbRef1 = db.child(ANONYMOUS);
-        dbRef1 = db.child("User").child(ANONYMOUS);
-        helper = new FirebaseHelper(db);
+        db = FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_LOCATION_ADDRESS);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        db = mFirebaseDatabase.getReference().child(Constants.FIREBASE_LOCATION_ADDRESS);
 
+        //db = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_LOCATION_ADDRESS);
+        // helper = new FirebaseHelper(db);
         // ADAPTER
-        mCustomerAdapter = new CustomerAdapter(getActivity(), helper.retrieve());
-
-
+        //mCustomerAdapter = new CustomerAdapter(getActivity(), helper.retrieve());
         //sundayListView.setAdapter(mCustomerAdapter);
+        // customer.clear();
 
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                //String userId = dataSnapshot.getKey();
+                //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                //String userId = dataSnapshot.getKey();
+                //String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                //String userId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                //userId = userId.replace(".", ",");
 
-        db.addChildEventListener(new ChildEventListener() {
+                Log.d("USER LOG KEY", userId);
+
+                DatabaseReference keyRef = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child(Constants.FIREBASE_LOCATION_ADDRESS)
+                        .child(userId);
+
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                            Customer customerVal = ds.getValue(Customer.class);
+                            customer.add(customerVal);
+                            mCustomerAdapter = new CustomerAdapter(getContext(), customer);
+                            sundayListView.setAdapter(mCustomerAdapter);
+                            mCustomerAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        sundayListView.setAdapter(mCustomerAdapter);
+                        mCustomerAdapter.notifyDataSetChanged();
+                    }
+                };
+                keyRef.addListenerForSingleValueEvent(valueEventListener);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        db.addListenerForSingleValueEvent(eventListener);
+
+        /*db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                sundayListView.setAdapter(mCustomerAdapter);
-               // mCustomerAdapter.notifyDataSetChanged();
+                //sundayListView.setAdapter(mCustomerAdapter);
+                //mCustomerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                sundayListView.setAdapter(mCustomerAdapter);
-               // mCustomerAdapter.notifyDataSetChanged();
+                //sundayListView.setAdapter(mCustomerAdapter);
+                //mCustomerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                sundayListView.setAdapter(mCustomerAdapter);
+
+                //sundayListView.setAdapter(mCustomerAdapter);
                 //lv.setAdapter(adapter);
                 //adapter.notifyDataSetChanged();
             }
@@ -109,7 +148,7 @@ public class SundayFragment extends Fragment {
                // lv.setAdapter(adapter);
                // adapter.notifyDataSetChanged();
             }
-        });
+        });*/
         return view;
     }
 

@@ -1,17 +1,15 @@
 package com.example.quinatzin.myroute.data;
 
-import android.provider.ContactsContract;
+import android.util.Log;
 
-import com.example.quinatzin.myroute.Customer;
-import com.example.quinatzin.myroute.CustomerAdapter;
+import com.example.quinatzin.myroute.model.Customer;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by quinatzin on 4/11/2018.
@@ -61,10 +59,14 @@ public class FirebaseHelper {
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Customer customerValue = ds.getValue(Customer.class);
+            //Log.d("TESTING DATA", customerValue.getFirstName() + " " + customerValue.getAddress());
             customer.add(customerValue);
         }
     }
 
+    private void fetchDataLogin(DataSnapshot dataSnapshot){
+
+    }
 
     //READ BY HOOKING ONTO DATABASE OPERATION CALLBACKS
 
@@ -72,22 +74,16 @@ public class FirebaseHelper {
         db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //Customer customer = dataSnapshot.getValue(Customer.class);
-               fetchData(dataSnapshot);
+
+                  fetchData(dataSnapshot);
                /* Customer customerValue = dataSnapshot.getValue(Customer.class);
-                System.out.println("Last Name: " + customerValue.getLastName());
-                System.out.println("First Name: " + customerValue.getFirstName());
-                System.out.println("Phone: " + customerValue.getPhoneNumber());
-                System.out.println("Email: " + customerValue.getEmail());
-                System.out.println("Price: " + customerValue.getPrice());
-                System.out.println("Day: " + customerValue.getDay());
                 customer.add(customerValue);
                 */
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-               // fetchData(dataSnapshot);
+                 fetchData(dataSnapshot);
             }
 
             @Override

@@ -109,44 +109,65 @@
             android:hint="Price"
             android:inputType="text|numberDecimal" />
 
-        <EditText
-            android:id="@+id/editRouteDay"
+       <!-- <TextView
+            android:id="@+id/dayLabel"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/editRouteDay"
+            android:layout_toStartOf="@+id/editRouteDay"
+            android:layout_below="@+id/editTextPrice"
+            android:text="Day"
+            android:textSize="18dp"/>
+        -->
+        <Spinner
+            android:id="@+id/editRouteDaySpinner"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextPrice"
             android:layout_alignStart="@+id/editTextPrice"
-            android:layout_below="@+id/editTextPrice"
-            android:ems="10"
-            android:hint="Day"
-            android:inputType="text" />
+            android:layout_below="@+id/editTextPrice" />
 
-        <EditText
-            android:id="@+id/editTextAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editRouteDay"
-            android:layout_alignStart="@+id/editRouteDay"
-            android:layout_below="@+id/editRouteDay"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Address"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:minLines="2"
-            android:scrollbars="vertical"
-            android:textStyle="normal" />
+        <!-- <EditText
+             android:id="@+id/editRouteDay"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/editTextPrice"
+             android:layout_alignStart="@+id/editTextPrice"
+             android:layout_below="@+id/editTextPrice"
+             android:ems="10"
+             android:hint="Day"
+             android:inputType="text" />
+         -->
+         <EditText
+             android:id="@+id/editTextAddress"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/editRouteDaySpinner"
+             android:layout_alignStart="@+id/editRouteDaySpinner"
+             android:layout_below="@+id/editRouteDaySpinner"
+             android:layout_weight="1"
+             android:ems="10"
+             android:hint="Address"
+             android:inputType="textMultiLine|textNoSuggestions"
+             android:minLines="2"
+             android:scrollbars="vertical"
+             android:textStyle="normal" />
 
-        <EditText
-            android:id="@+id/editNoteId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextAddress"
-            android:layout_alignStart="@+id/editTextAddress"
-            android:layout_below="@+id/editTextAddress"
-            android:ems="10"
-            android:hint="Notes"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:scrollbars="vertical"
-            android:textStyle="normal" />
+         <EditText
+             android:id="@+id/editNoteId"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/editTextAddress"
+             android:layout_alignStart="@+id/editTextAddress"
+             android:layout_below="@+id/editTextAddress"
+             android:ems="10"
+             android:hint="Notes"
+             android:inputType="textMultiLine|textNoSuggestions"
+             android:scrollbars="vertical"
+             android:textStyle="normal" />
 
     </RelativeLayout>
 </ScrollView>

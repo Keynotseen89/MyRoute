@@ -1,4 +1,4 @@
-package com.example.quinatzin.myroute;
+package com.example.quinatzin.myroute.model;
 
 /**
  * Created by quinatzin on 4/7/2018.
@@ -18,6 +18,30 @@ public class Customer {
 
 
     public Customer() {
+    }
+
+    public Customer(String lastName, String firstName, String day) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.day = day;
+    }
+
+    public Customer(String userName, String lastName, String firstName, String price, String day) {
+        this.userName = userName;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.price = price;
+        this.day = day;
+    }
+
+    public Customer(String userName, String lastName, String firstName, String phoneNumber, String email, String address, String notes) {
+        this.userName = userName;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.notes = notes;
     }
 
     public Customer(String userName, String lastName, String firstName, String phoneNumber, String email, String price, String day, String address, String notes) {
@@ -48,15 +72,6 @@ public class Customer {
         this.address = address;
     }
 
-   /*
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-    */
     public String getDay() {
         return day;
     }

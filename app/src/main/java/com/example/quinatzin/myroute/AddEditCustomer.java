@@ -1,7 +1,6 @@
 package com.example.quinatzin.myroute;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,14 +15,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.quinatzin.myroute.model.Customer;
+import com.example.quinatzin.myroute.utils.Constants;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 /**
  * Created by quinatzin on 4/9/2018.
@@ -59,13 +65,24 @@ public class AddEditCustomer extends AppCompatActivity {
     String lastNameString, firstNameString, phoneString, emailString, priceString,
             dayString, addressString, notesString;
 
+    Spinner daySpinner;
+    String userEmail;
+
     private static final String TAG = "AddEditCustomer";
 
-    public static final String ANONYMOUS = "Stacy Joy";
+    public static final String ANONYMOUS = "ksintora@yahoo,com";
     // Firebase instance variable
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference mDatabaseReferenceTwo;
     private ChildEventListener mChildEventListener;
+
+    private String[] dayList = {Constants.FIREBASE_LOCATION_SUNDAY, Constants.FIREBASE_LOCATION_MONDAY, Constants.FIREBASE_LOCATION_TUESDAY,
+    Constants.FIREBASE_LOCATION_WEDNESDAY, Constants.FIREBASE_LOCATION_THURSDAY, Constants.FIREBASE_LOCATION_FRIDAY,
+    Constants.FIREBASE_LOCATION_SATURDAY};
+
+
+    private ArrayList<String> listDay;
 
     private boolean isEmpty = true;
     private Uri mCurrentData;
@@ -79,14 +96,33 @@ public class AddEditCustomer extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //setSupportActionBar(toolbar);
+        daySpinner = findViewById(R.id.editRouteDaySpinner);
+        listDay = new ArrayList<>();
+        for(int i = 0; i < dayList.length; i++){
+            listDay.add(dayList[i]);
+        }
+
+        ArrayAdapter<String> dayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listDay);
+        daySpinner.setAdapter(dayAdapter);
+
         Intent intent = getIntent();
         //mCurrentData = intent.getData();
 
-        mUsername = ANONYMOUS;
+        //mUsername = ANONYMOUS;
+
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        userEmail = userEmail.replace(".", ",");
+        mUsername = userEmail;
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("User").child(ANONYMOUS);
-        //mDatabaseReference = mFirebaseDatabase.getReference("User").child(mUsername);
-        //mDatabaseReference = mFirebaseDatabase.getReference().child("User");
+        mDatabaseReference = mFirebaseDatabase.getReference().child(Constants.FIREBASE_LOCATION_ADDRESS);
+        mDatabaseReference = mDatabaseReference.child(userEmail);
+
+        mDatabaseReferenceTwo = mFirebaseDatabase.getReference().child(Constants.FIREBASE_LOCATION_DAYS);
+        mDatabaseReferenceTwo = mDatabaseReferenceTwo.child(userEmail);
+
 
         // set value to imageBtnUpload
         imageBtnUpload = findViewById(R.id.imageBtn_id);
@@ -98,7 +134,7 @@ public class AddEditCustomer extends AppCompatActivity {
         mPhoneNumber = findViewById(R.id.editTextPhone);
         mEmail = findViewById(R.id.editTextEmail);
         mPrice = findViewById(R.id.editTextPrice);
-        mRouteDay = findViewById(R.id.editRouteDay);
+        //mRouteDay = findViewById(R.id.editRouteDaySpinner);
         mAddress = findViewById(R.id.editTextAddress);
         mNotes = findViewById(R.id.editNoteId);
 
@@ -277,18 +313,19 @@ public class AddEditCustomer extends AppCompatActivity {
         String phoneString = mPhoneNumber.getText().toString().trim();
         String emailString = mEmail.getText().toString().trim();
         String priceString = mPrice.getText().toString().trim();
-        String routeDayString = mRouteDay.getText().toString().trim();
+        String dayString = String.valueOf(daySpinner.getSelectedItem());
         String addressString = mAddress.getText().toString().trim();
         String noteString = mNotes.getText().toString().trim();
 
+        Customer customerInformation = new Customer( mUsername, lastNameString, firstNameString, phoneString, emailString,
+                priceString, dayString, addressString, noteString);
 
-       /* ContentValues values = new ContentValues();
-        values.put()
-        */
-        Customer customerInformation = new Customer(mUsername, lastNameString, firstNameString, phoneString, emailString,
-                priceString, routeDayString, addressString, noteString);
-        mDatabaseReference.push().setValue(customerInformation);
+        String pushID = mDatabaseReference.push().getKey();
+        mDatabaseReference.child(pushID).setValue(customerInformation);
 
+        customerInformation = new Customer(lastNameString, firstNameString, dayString);
+
+        mDatabaseReferenceTwo.child(dayString).child(pushID).setValue(customerInformation);
         Toast.makeText(this, " Saved ", Toast.LENGTH_LONG).show();
     }
 

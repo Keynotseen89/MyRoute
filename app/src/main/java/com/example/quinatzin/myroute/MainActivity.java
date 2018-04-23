@@ -1,6 +1,7 @@
 package com.example.quinatzin.myroute;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -12,11 +13,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.quinatzin.myroute.model.User;
+import com.example.quinatzin.myroute.utils.Constants;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,13 +42,35 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private FloatingActionButton fab;
 
-    @Override
+    private String mUsername;
+    // private static final String USER = "user";
+    public static final String ANONYMOUS = "anonymous";
+
+    // Firebase instance variables
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+
+    public static final int RC_SIGN_IN = 1;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Choose authentication providers
+        final List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference().child(Constants.FIREBASE_LOCATION_USERS);
+        // Initialize Firebase components
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         //Day tabs ids
         mTabLayout = findViewById(R.id.dayTabs);
@@ -97,17 +137,70 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                    String userEmail = user.getEmail();
+                    userEmail = userEmail.replace(".", ",");
+                    onSignedInInitialize(user.getDisplayName(), userEmail);
+
+                } else {
+                    // user is signed out
+                    // Create and launch sign-in intent
+                    onSignedOutCleanup();
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)
+                                    .setAvailableProviders(providers)
+                                    .build(),
+                            RC_SIGN_IN);
+
+                }
+            }
+        };
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (requestCode == RESULT_OK) {
+                // sign-in succeeded, set up the UI
+            } else if (resultCode == RESULT_CANCELED) {
+                // Sign in was cancelled by the user, finished the activity
+                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+    }
+
     /**
      * Toolbar obtain insert dummy data
+     *
      * @param menu
      * @return
      */
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_vaccine, menu);
+        getMenuInflater().inflate(R.menu.menu_signout, menu);
         return true;
-    }*/
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.signout_id:
+                AuthUI.getInstance().signOut(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
     /**
@@ -162,5 +255,43 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return 1;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    private void onSignedInInitialize(String username, String email) {
+        mUsername = username;
+        Log.d("LOG IN NAME ", mUsername);
+        String userEmail = email;
+
+        Toast.makeText(this, "Sign in as: " + mUsername, Toast.LENGTH_LONG).show();
+
+        //Customer customer = new Customer(mUsername,null,null,null,userEmail,null,null,null,null);
+        //mDatabaseReference = mDatabaseReference.child(userEmail);
+        /*HashMap<String, Object> timestampJoined = new HashMap<>();
+        timestampJoined.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+        User userAccount = new User(mUsername, userEmail, timestampJoined,true);
+        */
+        User userAccount = new User(mUsername, userEmail);
+        //getAccountEmail(userAccount);
+        mDatabaseReference.child(userEmail).setValue(userAccount);
+
+    }
+
+    private void onSignedOutCleanup() {
+        mUsername = ANONYMOUS;
+
     }
 }
